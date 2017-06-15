@@ -6,4 +6,26 @@ router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
 
+router.post('/', function(req, res, next) {
+  console.log('req : ', req);
+  console.log('==========================================================');
+  console.log('res : ', res);
+  console.log('==========================================================');
+  console.log('next : ', next);
+  // res.send('post respond with a resource');
+  res.json({
+            success: false,
+            reason: '로그인 필요 요청',
+            mango: '망고'
+        });
+});
+
+router.put('/', function(req, res, next) {
+  res.send('put respond with a resource');
+});
+
+router.patch('/', function(req, res, next) {
+  res.send('patch respond with a resource');
+});
+
 module.exports = router;

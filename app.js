@@ -50,4 +50,10 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+// db connection
+const pgp = require('pg-promise')();
+const dbInfo = require('./resources/properties.js').dbInfo;
+const db = pgp(dbInfo);
+console.log(db);
+
 module.exports = app;
