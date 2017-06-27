@@ -1,10 +1,10 @@
 //database configuration
 let dbInfo = {
-    host: '',
-    port: '',
-    database: '',
-    user: '',
-    password: ''
+    host: 'projectc-db-instance.cl0nfpe9fpt6.ap-northeast-2.rds.amazonaws.com',
+    port: '5432',
+    database: 'projectc',
+    user: 'dylee',
+    password: '2831647d'
 }
 
 module.exports = {
