@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const db = require('../../service/db');
-const userService = require('./users.controller');
+const userService = require('./users.service');
 
 /* GET users listing. */
 router.get('/', function (req, res, next) {
