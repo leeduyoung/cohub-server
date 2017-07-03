@@ -1,7 +1,8 @@
 const db = require('../../service/db');
 
 let userService = {
-    signup: signup
+    signup: signup,
+    signin: signin,
 }
 
 function signup(userInfo) {
@@ -21,6 +22,10 @@ function signup(userInfo) {
         console.log(db.none(query, [userInfo.userId, userInfo.nickname, userInfo.password, userInfo.profileImage]));
         return db.none(query, [userInfo.userId, userInfo.nickname, userInfo.password, userInfo.profileImage]);
     });
+}
+
+function signin() {
+    console.log('signin');
 }
 
 module.exports = userService;
