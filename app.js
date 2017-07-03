@@ -37,37 +37,6 @@ app.use('/api/test', test);
 //passport init
 auth.initialize();
 
-const passport = require('passport')
-const LocalStrategy = require('passport-local').Strategy;
-const BearerStrategy = require('passport-http-bearer').Strategy;
-
-passport.use(new LocalStrategy(
-  function(username, password, done) {
-    console.log('username : ', username);
-    console.log('password : ', password);
-    // User.findOne({ username: username }, function(err, user) {
-    //   if (err) { return done(err); }
-    //   if (!user) {
-    //     return done(null, false, { message: 'Incorrect username.' });
-    //   }
-    //   if (!user.validPassword(password)) {
-    //     return done(null, false, { message: 'Incorrect password.' });
-    //   }
-    //   return done(null, user);
-    // });
-    return done(null, {user:'test'});
-  }
-));
-passport.use(new BearerStrategy({
-  function(token, done) {
-    console.log('1111');
-    return done(null, {user:'leedy'});
-  }
-}))
-var api = express.Router();
-require('./routes/api.js')(api, passport);
-app.use('/api2', api);
-
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');

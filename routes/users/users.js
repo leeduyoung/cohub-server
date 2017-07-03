@@ -5,9 +5,13 @@ const userService = require('./users.service');
 const passport = require('passport');
 
 // router.get('/', passport.authenticate('local', {session:false}), function (req, res) {
-router.get('/', passport.authenticate('local'), function (req, res) {
-  console.log('1111');
-});
+router.get('/', passport.authenticate('bearer', {session: false}), 
+  function (req, res) {
+    console.log('get router');
+    console.log('req.user : ', req.user);
+    // console.log('res : ', res);    
+    res.json(req.user);
+  });
 
 /* GET users listing. */
 // router.get('/', function (req, res, next) {
