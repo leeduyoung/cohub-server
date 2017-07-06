@@ -4,7 +4,6 @@ const db = require('../../service/db');
 const userService = require('./users.service');
 const passport = require('passport');
 
-// router.get('/', passport.authenticate('local', {session:false}), function (req, res) {
 router.get('/', passport.authenticate('bearer', {session: false}), 
   function (req, res) {
     console.log('get router');
@@ -13,17 +12,14 @@ router.get('/', passport.authenticate('bearer', {session: false}),
     res.json(req.user);
   });
 
-/* GET users listing. */
-// router.get('/', function (req, res, next) {
-//   res.send('respond with a resource');
-//   userService.signin();
-// });
 
 /**
  * 회원가입 
  */
 router.post('/', function (req, res, next) {
   console.log(req.body);
+
+  // todo: token값 생성해야 함.
 
   userService.signup(req.body)
     .then(response => {
