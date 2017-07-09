@@ -4,36 +4,46 @@ const db = require('../../service/db');
 const userService = require('./users.service');
 const passport = require('passport');
 
-router.get('/', passport.authenticate('bearer', {session: false}), 
-  function (req, res) {
-    console.log('get router');
-    console.log('req.user : ', req.user);
-    // console.log('res : ', res);    
-    res.json(req.user);
-  });
 
-
-/**
- * 회원가입 
- */
-router.post('/', function (req, res, next) {
+// 로그인
+router.post('/login', (req, res, next) => {
   console.log(req.body);
-
-  // todo: token값 생성해야 함.
-
-  userService.signup(req.body)
+  userService.signin(req.body)
     .then(response => {
       console.log(response);
+      res.json(response);
     })
     .catch(error => {
       console.log(error);
+      res.json({
+        success: false,
+        message: '서버 오류'
+      });
     });
+});
 
-  res.json({
-    success: false,
-    reason: '로그인 필요 요청',
-    mango: '망고'
+// 자동 로그인
+router.get('/login', passport.authenticate('bearer', { session: false }),
+  function (req, res) {
+    console.log('자동로그인 요청, req.user : ', req.user);
+    res.json(req.user);
   });
+
+// 회원가입
+router.post('/', function (req, res, next) {
+  userService.signup(req.body)
+    .then(() => {
+      res.json({
+        success: true
+      });
+    })
+    .catch(error => {
+      console.log(error);
+      res.json({
+        success: false,
+        message: '회원가입 실패'
+      });
+    });
 });
 
 router.put('/', function (req, res, next) {
@@ -42,6 +52,40 @@ router.put('/', function (req, res, next) {
 
 router.patch('/', function (req, res, next) {
   res.send('patch respond with a resource');
+});
+
+// 아이디 중복체크
+router.get('/id', function (req, res, next) {
+  userService.userIdDuplicateCheck(req.query.id)
+    .then(() => {
+      res.json({
+        success: true
+      });
+    })
+    .catch(error => {
+      console.log(error);
+      res.json({
+        success: false,
+        message: '이미 가입된 이메일 주소입니다.'
+      });
+    });
+});
+
+// 닉네임 중복체크
+router.get('/nickname', function (req, res, next) {
+  userService.nicknameDuplicateCheck(req.query.nickname)
+    .then(() => {
+      res.json({
+        success: true
+      });
+    })
+    .catch(error => {
+      console.log(error);
+      res.json({
+        success: false,
+        message: '이미 가입된 닉네임 입니다.'
+      });
+    });
 });
 
 module.exports = router;
