@@ -106,13 +106,13 @@ function comparePassword(plainPassword, encryptePassword) {
     });
 }
 
-function logout(token) {
+function logout(userId) {
     return new Promise((resolve, reject) => {
         /**
          * 1. token에 해당되는 유저의 token을 삭제한다.
          */
-        let query = `UPDATE users SET token = NULL WHERE token = $1`;
-        db.none(query, token)
+        let query = `UPDATE users SET token = NULL WHERE user_id = $1`;
+        db.none(query, userId)
             .then(() => {
                 resolve(true);
             })
@@ -123,14 +123,14 @@ function logout(token) {
     });
 }
 
-function deleteUser(token) {
+function deleteUser(userId) {
     return new Promise((resolve, reject) => {
         /**
          * 1. token에 해당되는 유저의 {enable: false}로 변경하고 
          * 2. disable_time을 업데이트 합니다.
          */
-        let query = `update users set enable = false, disable_time = now() where token = $1`;
-        db.none(query, token)
+        let query = `update users set enable = false, disable_time = now() where user_id = $1`;
+        db.none(query, userId)
             .then(() => {
                 resolve();
             })

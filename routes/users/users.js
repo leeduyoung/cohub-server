@@ -47,8 +47,8 @@ router.post('/', function (req, res, next) {
 });
 
 // 회원탈퇴
-router.delete('/', function (req, res, next) {
-  userService.deleteUser(req.query.token)
+router.delete('/', passport.authenticate('bearer', { session: false }), function (req, res) {
+  userService.deleteUser(req.user.user_id)
     .then(() => {
       res.json({
         success: true
@@ -106,9 +106,9 @@ router.get('/nickname', function (req, res, next) {
 });
 
 // 로그아웃
-router.get('/logout', function (req, res, next) {
-  console.log('logout, req.query.token : ', req.query.token);
-  userService.logout(req.query.token)
+router.get('/logout', passport.authenticate('bearer', { session: false }), function (req, res) {
+  console.log('logout, req.user.user_id : ', req.user.user_id);
+  userService.logout(req.user.user_id)
     .then(response => {
       console.log(response);
       res.json({
@@ -121,6 +121,29 @@ router.get('/logout', function (req, res, next) {
         success: false,
         message: ''
       });      
+    });
+});
+
+// 프로필 조회 
+router.get('/profile', passport.authenticate('bearer', { session: false }), function (req, res) {
+  userService.findUserProfile(req.user.user_id)
+    .then(response => {
+      console.log(response);
+    })
+    .catch(error => {
+      console.log(error);
+    });
+});
+
+// 프로필 수정
+router.post('/profile', passport.authenticate('bearer', { session: false }), function (req, res) {
+  console.log('req.body : ', req.body);
+  userService.modifyUserProfile(req.body)
+    .then(response => {
+      console.log(response);
+    })
+    .catch(error => {
+      console.log(error);
     });
 });
 
