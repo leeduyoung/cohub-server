@@ -7,6 +7,9 @@ let userService = {
     signin: signin,
     userIdDuplicateCheck: userIdDuplicateCheck,
     nicknameDuplicateCheck: nicknameDuplicateCheck,
+    findUserProfile: findUserProfile,
+    modifyUserProfile: modifyUserProfile,
+    findUserList: findUserList,   
 }
 
 function signup(userInfo) {
@@ -99,6 +102,18 @@ function comparePassword(plainPassword, encryptePassword) {
             resolve(res);
         });
     });
+}
+
+function findUserProfile() {
+
+}
+
+function modifyUserProfile() {
+
+}
+
+function findUserList() {
+
 }
 
 module.exports = userService;
