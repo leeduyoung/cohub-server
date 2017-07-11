@@ -4,9 +4,11 @@ const randtoken = require('rand-token');
 
 let userService = {
     signup: signup,
-    signin: signin,
+    login: login,
     userIdDuplicateCheck: userIdDuplicateCheck,
     nicknameDuplicateCheck: nicknameDuplicateCheck,
+    logout: logout,
+    deleteUser: deleteUser,
 }
 
 function signup(userInfo) {
@@ -36,8 +38,8 @@ function signup(userInfo) {
     });
 }
 
-function signin(userInfo) {
-    console.log('signin');
+function login(userInfo) {
+    console.log('login');
     return new Promise((resolve, reject) => {
         /**
          * 1. 아이디로 회원정보 조회
@@ -53,10 +55,10 @@ function signin(userInfo) {
             })
             .then(response => {
                 if (response) {
-                    resolve({success: true, token: token});
+                    resolve({ success: true, token: token });
                 }
                 else {
-                    resolve({success: false, message: '아이디 또는 비밀번호를 확인 해주세요.'});
+                    resolve({ success: false, message: '아이디 또는 비밀번호를 확인 해주세요.' });
                 }
             })
             .catch(error => {
@@ -98,6 +100,41 @@ function comparePassword(plainPassword, encryptePassword) {
             if (err) reject(err);
             resolve(res);
         });
+    });
+}
+
+function logout(token) {
+    return new Promise((resolve, reject) => {
+        /**
+         * 1. token에 해당되는 유저의 token을 삭제한다.
+         */
+        let query = `UPDATE users SET token = NULL WHERE token = $1`;
+        db.none(query, token)
+            .then(() => {
+                resolve(true);
+            })
+            .catch(error => {
+                console.log(error);
+                reject(error);
+            });
+    });
+}
+
+function deleteUser(token) {
+    return new Promise((resolve, reject) => {
+        /**
+         * 1. token에 해당되는 유저의 {enable: false}로 변경하고 
+         * 2. disable_time을 업데이트 합니다.
+         */
+        let query = `update users set enable = false, disable_time = now() where token = $1`;
+        db.none(query, token)
+            .then(() => {
+                resolve();
+            })
+            .catch(error => {
+                console.log(error);
+                reject(error);
+            });
     });
 }
 
