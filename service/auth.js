@@ -24,10 +24,8 @@ const BearerStrategy = require('passport-http-bearer').Strategy;
 passport.use(new BearerStrategy(
   function(token, cb) {
     let query = `SELECT * FROM users WHERE token = $1`;
-    console.log('token : ', token);
     db.one(query, token)
        .then(response => {
-        console.log('response : ', response);
         if (!response) { return cb(null, false); }
         return cb(null, response);
        })

@@ -129,7 +129,7 @@ function deleteUser(userId) {
          * 1. token에 해당되는 유저의 {enable: false}로 변경하고 
          * 2. disable_time을 업데이트 합니다.
          */
-        let query = `update users set enable = false, disable_time = now() where user_id = $1`;
+        let query = `UPDATE users SET enable = false, disable_time = now() WHERE user_id = $1`;
         db.none(query, userId)
             .then(() => {
                 resolve();
@@ -142,15 +142,29 @@ function deleteUser(userId) {
 }
 
 function findUserProfile() {
-
+    //TODO: 프로필 조회시 필요한 정보 query
 }
 
-function modifyUserProfile() {
+function modifyUserProfile(newUserInfo, oldUserInfo) {
 
+    if(newUserInfo.profile_image != oldUserInfo.profile_image) {
+        //TODO: 사진 이미지가 변경 되었을 경우 s3에 사진 저장
+        // 변경된 url DB에 저장.
+    }
+
+    //TODO: 프로필 수정시 필요한 정보 query
+    let query = `update users set nickname = $1, profile_image = $2, introduce = $3, gender = $4, birthday = $5 where user_id = $6`;
+    db.none(query, newUserInfo.nickname, newUserInfo.profile_image, newUserInfo.introduce, newUserInfo.gender, newUserInfo.birthday, oldUserInfo.user_id)
+        .then(() => {
+            console.log('success');
+        })
+        .catch(error => {
+            console.log(error);
+        });
 }
 
 function findUserList() {
-
+    //TODO: 사용자 검색시 필요한 정보 query
 }
 
 module.exports = userService;

@@ -52,14 +52,14 @@ router.delete('/', passport.authenticate('bearer', { session: false }), function
     .then(() => {
       res.json({
         success: true
-      });      
+      });
     })
     .catch(error => {
       console.log(error);
       res.json({
         success: false,
         message: ''
-      });      
+      });
     });
 });
 
@@ -113,14 +113,14 @@ router.get('/logout', passport.authenticate('bearer', { session: false }), funct
       console.log(response);
       res.json({
         success: true
-      });      
+      });
     })
     .catch(error => {
       console.log(error);
       res.json({
         success: false,
         message: ''
-      });      
+      });
     });
 });
 
@@ -129,21 +129,36 @@ router.get('/profile', passport.authenticate('bearer', { session: false }), func
   userService.findUserProfile(req.user.user_id)
     .then(response => {
       console.log(response);
+      res.json({
+        success: true
+      });
     })
     .catch(error => {
       console.log(error);
+      res.json({
+        success: false,
+        message: ''
+      });
     });
 });
 
 // 프로필 수정
 router.post('/profile', passport.authenticate('bearer', { session: false }), function (req, res) {
+  console.log('req.user : ', req.user);
   console.log('req.body : ', req.body);
-  userService.modifyUserProfile(req.body)
+  userService.modifyUserProfile(req.body, req.user)
     .then(response => {
       console.log(response);
+      res.json({
+        success: true
+      });
     })
     .catch(error => {
       console.log(error);
+      res.json({
+        success: false,
+        message: ''
+      });
     });
 });
 
