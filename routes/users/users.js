@@ -63,6 +63,18 @@ router.delete('/', passport.authenticate('bearer', { session: false }), function
     });
 });
 
+// 사용자 조회
+router.get('/', passport.authenticate('bearer', { session: false }), function (req, res) {
+  console.log('사용자 조회, req.query : ', req.query);
+  userService.findUserList(req.query.text)
+    .then(function(response) {
+      console.log(response);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+});
+
 router.put('/', function (req, res, next) {
   res.send('put respond with a resource');
 });
@@ -147,8 +159,7 @@ router.post('/profile', passport.authenticate('bearer', { session: false }), fun
   console.log('req.user : ', req.user);
   console.log('req.body : ', req.body);
   userService.modifyUserProfile(req.body, req.user)
-    .then(response => {
-      console.log(response);
+    .then(() => {
       res.json({
         success: true
       });

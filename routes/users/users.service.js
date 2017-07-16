@@ -146,25 +146,34 @@ function findUserProfile() {
 }
 
 function modifyUserProfile(newUserInfo, oldUserInfo) {
+    console.log('newUserInfo : ', newUserInfo);
+    console.log('oldUserInfo : ', oldUserInfo);
+    return new Promise((resolve, reject) => {
+        if(newUserInfo.profile_image != oldUserInfo.profile_image) {
+            //TODO: 사진 이미지가 변경 되었을 경우 s3에 사진 저장
+            // 변경된 url DB에 저장.
+            console.log('profile image update');
+        }
 
-    if(newUserInfo.profile_image != oldUserInfo.profile_image) {
-        //TODO: 사진 이미지가 변경 되었을 경우 s3에 사진 저장
-        // 변경된 url DB에 저장.
-    }
-
-    //TODO: 프로필 수정시 필요한 정보 query
-    let query = `update users set nickname = $1, profile_image = $2, introduce = $3, gender = $4, birthday = $5 where user_id = $6`;
-    db.none(query, newUserInfo.nickname, newUserInfo.profile_image, newUserInfo.introduce, newUserInfo.gender, newUserInfo.birthday, oldUserInfo.user_id)
-        .then(() => {
-            console.log('success');
-        })
-        .catch(error => {
-            console.log(error);
-        });
+        //TODO: 프로필 수정시 필요한 정보 query
+        let query = `UPDATE users SET nickname = $1, profile_image = $2, introduce = $3, gender = $4, birthday = $5 WHERE user_id = $6`;
+        db.none(query, [newUserInfo.nickname, newUserInfo.profile_image, newUserInfo.introduce, newUserInfo.gender, newUserInfo.birthday, oldUserInfo.user_id])
+            .then(() => {
+                console.log('success');
+                resolve();
+            })
+            .catch(error => {
+                console.log(error);
+                reject(error);
+            });
+    })
 }
 
-function findUserList() {
+function findUserList(text) {
     //TODO: 사용자 검색시 필요한 정보 query
+    return new Promise((resolve, reject) => {
+        
+    });
 }
 
 module.exports = userService;
