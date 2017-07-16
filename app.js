@@ -32,6 +32,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/api/users', users);
+app.use('/api/idea', idea);
 app.use('/api/test', test);
 
 //passport init

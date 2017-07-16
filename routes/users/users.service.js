@@ -170,7 +170,7 @@ function modifyUserProfile(newUserInfo, oldUserInfo) {
 }
 
 function findUserList(text) {
-    //TODO: 사용자 검색시 필요한 정보 query
+    //TODO: 사용자 검색시 필요한 정보 query. nickname or id.
     return new Promise((resolve, reject) => {
         
     });

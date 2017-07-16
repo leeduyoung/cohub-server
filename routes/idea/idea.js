@@ -1,28 +1,77 @@
 var express = require('express');
 var router = express.Router();
-const db = require('../service/db.js');
+const db = require('../../service/db');
+const ideaService = require('./idea.service');
+const passport = require('passport');
 
-/* GET ideas listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+// idea 조회
+router.get('/', passport.authenticate('bearer', { session: false }), function (req, res) {
+  ideaService.findIdea(req.query.idea_id)
+    .then(response => {
+      console.log(response);
+      res.json({
+        success: true,
+        idea: response
+      });
+    })
+    .catch(error => {
+      console.log(error);
+      res.json({
+        success: false,
+        error: error
+      });
+    });
 });
 
-router.post('/', function(req, res, next) {
-
-console.log(db);
-  res.json({
-            success: false,
-            reason: '로그인 필요 요청',
-            mango: '망고'
-        });
+// idea 올리기
+router.post('/', passport.authenticate('bearer', { session: false }), function (req, res) {
+  ideaService.inputIdea()
+    .then(response => {
+      console.log(response);
+      res.json({
+        success: true
+      });
+    })
+    .catch(error => {
+      console.log(error);
+      res.json({
+        success: false
+      });
+    });  
 });
 
-router.put('/', function(req, res, next) {
-  res.send('put respond with a resource');
+// 아이디어 수정
+router.put('/', passport.authenticate('bearer', { session: false }), function (req, res) {
+  ideaService.modifyIdea()
+    .then(response => {
+      console.log(response);
+      res.json({
+        success: true
+      });
+    })
+    .catch(error => {
+      console.log(error);
+      res.json({
+        success: false
+      });
+    });  
 });
 
-router.patch('/', function(req, res, next) {
-  res.send('patch respond with a resource');
+// 아이디어 삭제
+router.delete('/', passport.authenticate('bearer', { session: false }), function (req, res) {
+  ideaService.deleteIdea()
+    .then(response => {
+      console.log(response);
+      res.json({
+        success: true
+      });
+    })
+    .catch(error => {
+      console.log(error);
+      res.json({
+        success: false
+      });
+    });  
 });
 
 module.exports = router;
