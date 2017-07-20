@@ -5,6 +5,9 @@ let ideaService = {
     inputIdea: inputIdea,
     modifyIdea: modifyIdea,
     deleteIdea: deleteIdea,
+    findRecentIdeaList: findRecentIdeaList,
+    findPopularIdeaList: findPopularIdeaList,
+    findFollowIdeaList: findFollowIdeaList,
 }
 
 function findIdea(ideaId) {
@@ -38,4 +41,28 @@ function deleteIdea(ideaId) {
     });
 }
 
+function findRecentIdeaList() {
+    return new Promise((resolve, reject) => {
+        //TODO
+    });
+}
+    
+function findPopularIdeaList() {
+    return new Promise((resolve, reject) => {
+        //TODO
+    });
+}
+
+function findFollowIdeaList() {
+    return new Promise((resolve, reject) => {
+        //TODO
+    });
+}
+
+// template
+// function findFollowIdeaList() {
+//     return new Promise((resolve, reject) => {
+
+//     });
+// }
 module.exports = ideaService;
