@@ -10,6 +10,7 @@ var auth = require('./service/auth.js')(app);
 
 var index = require('./routes/index');
 var users = require('./routes/users/users');
+var idea = require('./routes/idea/idea');
 var test = require('./routes/test/test');
 
 // view engine setup
